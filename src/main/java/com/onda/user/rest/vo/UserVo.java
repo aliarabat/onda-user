@@ -20,11 +20,12 @@ public class UserVo {
     private String birthDate;
     private String joinDate;
     private String rang;
+    private boolean isBlocked;
 
     public UserVo() {
     }
 
-    public UserVo(Long id, String username, String email, String password, String firstName, String lastName, String birthDate, String joinDate, String rang) {
+    public UserVo(Long id, String username, String email, String password, String firstName, String lastName, String birthDate, String joinDate, String rang, boolean isBlocked) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -34,6 +35,7 @@ public class UserVo {
         this.birthDate = birthDate;
         this.joinDate = joinDate;
         this.rang = rang;
+        this.isBlocked = isBlocked;
     }
 
     
@@ -108,5 +110,13 @@ public class UserVo {
 
     public void setRang(String rang) {
         this.rang = rang;
+    }
+
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
 }

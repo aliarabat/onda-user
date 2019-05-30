@@ -30,13 +30,13 @@ public class User implements Serializable {
     private String joinDate;
     private String rang;
     private String extendedType;
-    private int attempts;
+    private int attempts;//deprecated
     private boolean isBlocked;
 
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, String birthDate, String joinDate, String rang) {
+    public User(Long id, String username, String email, String password, String firstName, String lastName, String birthDate, String joinDate, String rang, boolean isBlocked) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -46,8 +46,7 @@ public class User implements Serializable {
         this.birthDate = birthDate;
         this.joinDate = joinDate;
         this.rang = rang;
-        this.attempts = 4;
-        this.isBlocked = false;
+        this.isBlocked = isBlocked;
     }
 
     public Long getId() {

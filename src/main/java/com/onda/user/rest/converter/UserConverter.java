@@ -31,8 +31,9 @@ public class UserConverter {
             String birthDate = userVo.getBirthDate();
             String joinDate = userVo.getJoinDate();
             String rang = userVo.getRang();
+            boolean isBlocked = userVo.getIsBlocked();
 
-            return new User(id, username, email, password, firstName, lastName, birthDate, joinDate, rang);
+            return new User(id, username, email, password, firstName, lastName, birthDate, joinDate, rang,isBlocked);
 
         }
     }
@@ -51,8 +52,9 @@ public class UserConverter {
             String birthDate = user.getBirthDate();
             String joinDate = user.getJoinDate();
             String rang = user.getRang();
+            boolean isBlocked = user.isBlocked();
 
-            return new UserVo(id, username, email, password, firstName, lastName, birthDate, joinDate, rang);
+            return new UserVo(id, username, email, password, firstName, lastName, birthDate, joinDate, rang, isBlocked);
         }
     }
 }

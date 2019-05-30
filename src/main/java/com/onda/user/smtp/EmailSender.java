@@ -7,16 +7,17 @@ package com.onda.user.smtp;
 
 import com.onda.user.util.LinkUtil;
 import com.onda.user.util.StringUtil;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.security.auth.Subject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 /**
- *
  * @author Xrio
  */
 @Component
@@ -26,14 +27,28 @@ public class EmailSender {
     private JavaMailSender javaMailSender;
 
     public int sendPasswordRecoveryEmail(String destination, String link) {
-        try {
-            String subject = "Demande de réinitialisation de mot de passe";
-            String body = "Bonjour,\n suite a votre demande, nous envoiyons un lien temporaraire(24H)\n : " + link;
-            
+        String subject = "Demande de réinitialisation du mot de passe";
+        String body = "Bonjour, suite à votre demande, nous vous envoyons un lien temporaire (24H)\n : " + link;
+        return sendMessage(destination, subject, body);
+    }
 
+    public int sendPasswordChangeInformationMessage(String destination) {
+        String subject = "Changement de mot de passe";
+        String body = "Nous vous informons du changement de votre mot de passe. Si ce n'était pas suite à votre demande, veuillez contacter l'administrateur le plus rapidement possible.";
+        return sendMessage(destination, subject, body);
+    }
+
+    public int sendEmailChangeInformationMessage(String destination) {
+        String subject = "Changement d'adresse email";
+        String body = "Nous vous informons du changement de votre adresse email. Si ce n'était pas suite à votre demande, veuillez contacter l'administrateur le plus rapidement possible.";
+        return sendMessage(destination, subject, body);
+    }
+
+    public int sendMessage(String destination, String subject, String body) {
+        try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper;
-            helper = new MimeMessageHelper(message, true); // true indicates
+            helper = new MimeMessageHelper(message, true);
             helper.setSubject(subject);
             helper.setTo(destination);
             helper.setText(body, true);

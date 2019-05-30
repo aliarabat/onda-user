@@ -12,15 +12,16 @@ import com.onda.user.rest.vo.PasswordChangeRequest;
 import com.onda.user.rest.vo.PasswordRecoveryRequest;
 import com.onda.user.rest.vo.UserDataChangeRequest;
 import com.onda.user.service.LogService;
+import com.onda.user.service.RecoveryService;
 import com.onda.user.service.UserService;
+import com.onda.user.smtp.EmailSender;
 import com.onda.user.util.StringUtil;
 import com.onda.user.util.UserUtil;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author Xrio
  */
 @Service
@@ -31,6 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private RecoveryService recoveryService;
+
+    @Autowired
+    private EmailSender emailSender;
 
     @Override
     public int create(User user) {
@@ -97,6 +104,7 @@ public class UserServiceImpl implements UserService {
         } else {
             userFromDatabase.setEmail(emailChangeRequest.getNewEmail());
             userDao.save(userFromDatabase);
+            emailSender.sendEmailChangeInformationMessage(emailChangeRequest.getOriginalEmail());
             return 1;
         }
     }
@@ -111,6 +119,7 @@ public class UserServiceImpl implements UserService {
         } else {
             userFromDatabase.setPassword(StringUtil.hash(passwordChangeRequest.getNewPassword()));
             userDao.save(userFromDatabase);
+            emailSender.sendPasswordChangeInformationMessage(userFromDatabase.getEmail());
             return 1;
         }
     }
@@ -123,6 +132,8 @@ public class UserServiceImpl implements UserService {
         } else {
             userFromDatabase.setPassword(StringUtil.hash(passwordRecoveryRequest.getNewPwd()));
             userDao.save(userFromDatabase);
+            recoveryService.remove(userFromDatabase);
+            emailSender.sendPasswordChangeInformationMessage(userFromDatabase.getEmail());
             return 1;
         }
     }
@@ -149,4 +160,19 @@ public class UserServiceImpl implements UserService {
         this.logService = logService;
     }
 
+    public RecoveryService getRecoveryService() {
+        return recoveryService;
+    }
+
+    public void setRecoveryService(RecoveryService recoveryService) {
+        this.recoveryService = recoveryService;
+    }
+
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
 }

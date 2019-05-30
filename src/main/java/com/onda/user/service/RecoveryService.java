@@ -19,6 +19,7 @@ public interface RecoveryService {
      public int sendAndNotify(String email);
      public int recover(String token);
      public int serve(Long id);
-     public User getRecoveryEmail(String token);
+     public User getRecoveryUser(String token);
+     public int remove(User user);
 
 }

@@ -6,8 +6,14 @@
 package com.onda.user.dao;
 
 import com.onda.user.model.Recovery;
+import com.onda.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  *
@@ -16,4 +22,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecoveryDao extends JpaRepository<Recovery, Long> {
     public Recovery findByToken(String token);
+    public Recovery findByUser(User user);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Recovery R where R.user = ?1")
+    public int removeByUser(User user);
 }

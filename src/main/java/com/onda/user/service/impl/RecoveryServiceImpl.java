@@ -16,6 +16,7 @@ import com.onda.user.util.LinkUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import com.onda.user.util.ObjectUtil;
@@ -84,7 +85,7 @@ public class RecoveryServiceImpl implements RecoveryService {
     }
 
     @Override
-    public User getRecoveryEmail(String token) {
+    public User getRecoveryUser(String token) {
         if (StringUtil.isEmpty(token)) {
             return null;
         } else {
@@ -94,6 +95,12 @@ public class RecoveryServiceImpl implements RecoveryService {
             }
             return recoveryDao.findByToken(token).getUser();
         }
+    }
+
+    @Override
+    public int remove(User user) {
+        recoveryDao.removeByUser(user);
+        return 1;
     }
 
     @Override

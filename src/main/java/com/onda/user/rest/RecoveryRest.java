@@ -28,9 +28,9 @@ public class RecoveryRest {
 //        return recoveryService.serve(id);
 //    }
 
-    @GetMapping("/get-email/{token}")
-    public User getRecoveryEmail(@PathVariable String token){
-        return recoveryService.getRecoveryEmail(token);
+    @GetMapping("/get-user/{token}")
+    public User getRecoveryUser(@PathVariable String token){
+        return recoveryService.getRecoveryUser(token);
     }
     
     public RecoveryService getRecoveryService() {
